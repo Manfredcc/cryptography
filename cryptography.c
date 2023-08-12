@@ -17,9 +17,10 @@
 
 pcryptographyoc egoist;
 
+void show(void);
+
 int main(int argc, char *argv[])
 {
-    char *man;
 
     do {
         egoist = calloc(1, sizeof(*egoist));
@@ -28,18 +29,27 @@ int main(int argc, char *argv[])
             break;
         }
         menu();
-        man = get_line();
-        printf("original message:%s\n", man);
-
-        // egoist->original_msg = get_line();
-        // if (egoist->original_msg == NULL) {
-        //     printf("failed to alloc mem for original message\n");
-        //     break;
-        // }
-        // printf("original message:%s\n", egoist->original_msg);
-
         ops_init();
+
+        egoist->original_msg = get_line(); /* -1- Get original input */
+        if (egoist->original_msg == NULL) {
+            printf("failed to alloc mem for original message\n");
+            break;
+        }
+
+        egoist->encrypt_msg = operation.FUNC->ego_encrypt(egoist->original_msg, 0); /* -2- Encrypt */
+        egoist->decrypt_msg = operation.FUNC->ego_decrypt(egoist->encrypt_msg, 0); /* -3- Decrypt */
+
     } while (0);
+ 
+    show();
 
     return 0;
+}
+
+void show(void)
+{
+    printf("[Original:%s]\n", egoist->original_msg);
+    printf("[Encrypt:%s]\n", egoist->encrypt_msg);
+    printf("[Decrypt:%s]\n", egoist->decrypt_msg);
 }

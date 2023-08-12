@@ -6,8 +6,8 @@ typedef enum {
     TRUE,
 }BOOL;
 
-typedef char *(*ENCRYPT)(char *orginal_msg, int num);
-typedef char *(*DECRYPT)(char *orginal_msg, int num);
+typedef char *(*ENCRYPT)(char *orginal_msg, int key);
+typedef char *(*DECRYPT)(char *encrypt_msg, int key);
 
 typedef struct _OPS {
     ENCRYPT ego_encrypt;
