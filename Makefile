@@ -1,10 +1,10 @@
-objects = cryptography.o lib.o reverse.o
+objects = cryptography.o lib.o definition.o
 
 launch : $(objects)
 	gcc -o launch $(objects)
 
 cryptography.o : lib.h
-lib.o : reverse.h
+lib.o : definition.h
 
 .PHONY : clean
 clean :

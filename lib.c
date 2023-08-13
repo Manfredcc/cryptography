@@ -3,7 +3,7 @@
 #include <string.h>
 #include <malloc.h>
 #include "lib.h"
-#include "reverse.h"
+#include "definition.h"
 
 crypt_ops operation;
 static OPS ops_lib[ID_MAX] = {
@@ -11,11 +11,16 @@ static OPS ops_lib[ID_MAX] = {
         .ego_encrypt = reverse_encrypt,
         .ego_decrypt = reverse_decrypt,
     },
+
+    { /* caesar */
+        .ego_encrypt = caesar_encrypt,
+        .ego_decrypt = caesar_decrypt,
+    },
 };
 
 static char *names[ID_MAX] = {
     "reverse",
-    "carsar",
+    "caesar",
     "tramspose",
     "multiply",
     "affine",
@@ -91,10 +96,9 @@ char *get_line(void)
     size_t length = 0;
     int ch;
 
-    while ((ch = getchar()) != '\n' && ch != EOF); /* clear buffer */
-
     if (cur_poistion == NULL) { return NULL; }
 
+    while ((ch = getchar()) != '\n' && ch != EOF); /* clear buffer */
     while (1) {
         ch = fgetc(stdin);
         if (ch == '\n')
@@ -122,6 +126,7 @@ void menu(void)
 {
     int cout;
     char id;
+    int key;
 
     printf("Welcome to use cryptography system from Manfred\n");
     printf("Now make a choice of method\n");
@@ -133,5 +138,12 @@ void menu(void)
     if (id < ID_MAX) {
         operation.ID = id;
         printf("U chose %d:%s\n", id, names[id]);
+    }
+    
+    switch (id) {
+    case CAESAR:
+        printf("Please input the key: \n");
+        scanf("%d", &key);
+        operation.key = key % 26;
     }
 }
