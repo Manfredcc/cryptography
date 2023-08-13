@@ -6,7 +6,7 @@ typedef enum {
     TRUE,
 }BOOL;
 
-typedef char *(*ENCRYPT)(char *orginal_msg, int key);
+typedef char *(*ENCRYPT)(char *original_msg, int key);
 typedef char *(*DECRYPT)(char *encrypt_msg, int key);
 
 typedef struct _OPS {
@@ -30,7 +30,7 @@ typedef enum {
 typedef struct _crypt_ops {
     BOOL initialized;
     TRANSFER_ID ID;
-    char *key;
+    int key;
     OPS *FUNC;
     char name[20];
 }crypt_ops, *pcrypt_ops;

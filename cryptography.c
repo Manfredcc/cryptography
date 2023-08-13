@@ -12,6 +12,7 @@
     Date            Author          Description
     ----            ------          ------
     2023/08/12      Manfred         First release
+    2023/08/13      Manfred         Add caesar method
 
 =================================================================*/
 
@@ -37,8 +38,8 @@ int main(int argc, char *argv[])
             break;
         }
 
-        egoist->encrypt_msg = operation.FUNC->ego_encrypt(egoist->original_msg, 0); /* -2- Encrypt */
-        egoist->decrypt_msg = operation.FUNC->ego_decrypt(egoist->encrypt_msg, 0); /* -3- Decrypt */
+        egoist->encrypt_msg = operation.FUNC->ego_encrypt(egoist->original_msg, operation.key); /* -2- Encrypt */
+        egoist->decrypt_msg = operation.FUNC->ego_decrypt(egoist->encrypt_msg, operation.key); /* -3- Decrypt */
 
     } while (0);
  
