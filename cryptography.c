@@ -13,6 +13,7 @@
     ----            ------          ------
     2023/08/12      Manfred         First release
     2023/08/13      Manfred         Add caesar method
+    2023/08/16      Manfred         Add transpose method
 
 =================================================================*/
 
