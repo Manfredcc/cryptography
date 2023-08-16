@@ -16,6 +16,11 @@ static OPS ops_lib[ID_MAX] = {
         .ego_encrypt = caesar_encrypt,
         .ego_decrypt = caesar_decrypt,
     },
+
+    { /* transpose */
+        .ego_encrypt = transpose_encrypt,
+        .ego_decrypt = transpose_decrypt,
+    },
 };
 
 static char *names[ID_MAX] = {
@@ -145,5 +150,11 @@ void menu(void)
         printf("Please input the key: \n");
         scanf("%d", &key);
         operation.key = key % 26;
+        break;
+    case TRANSPOSE:
+        printf("Please input the key(column): \n");
+        scanf("%d", &key);
+        operation.key = key;
+        break;
     }
 }

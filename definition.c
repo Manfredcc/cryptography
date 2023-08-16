@@ -55,3 +55,76 @@ char *caesar_decrypt(char *encrypt_msg, int key)
 {
     return caesar_encrypt(encrypt_msg, 0 - key);
 }
+
+char *transpose_encrypt(char *original_msg, int key)
+{
+    int row, col, row_plus, col_plus, length, cout = 0;
+
+    length = strlen(original_msg);
+    if (length <= key) {
+        return "the key is too short";
+    }
+
+    row_plus = length / key + 1;  /* the rest objs of last row */
+    col_plus = length % key;
+    char *encrypt_msg = calloc(1, length + 1);
+    if (encrypt_msg == NULL) {
+        return "Failed to alloc mem for encrypt_msg";
+    }
+
+    char (*tmp)[key] = calloc(1, length + 1);
+
+    for (cout = 0, row = 0; row < row_plus; row++) {
+        for (col = 0; col < key; col++) {
+            tmp[row][col] = original_msg[cout++];
+            if (length == cout) {break;}
+        }
+    }
+    for (cout = 0, col = 0; col < key; col++) {
+        for (row = 0; row < row_plus; row++) {
+            if ((row == row_plus - 1) && (col >= col_plus)) {continue;}
+            encrypt_msg[cout++] = tmp[row][col];
+        }
+    }
+
+    free(tmp);
+
+    return encrypt_msg;
+}
+
+char *transpose_decrypt(char *encrypt_msg, int key)
+{
+    int row, col, row_plus, col_plus, length, cout = 0;
+
+    length = strlen(encrypt_msg);
+    if (length <= key) {
+        return "the key is too short";
+    }
+
+    row_plus = length / key + 1;  /* the rest objs of last row */
+    col_plus = length % key;
+    char *decrypt_msg = calloc(1, length + 1);
+    if (decrypt_msg == NULL) {
+        return "Failed to alloc mem for encrypt_msg";
+    }
+
+    char (*tmp)[key] = calloc(1, length + 1);
+
+    for (cout = 0, col = 0; col < key; col++) {
+        for (row = 0; row < row_plus; row++) {
+            if ((row == row_plus - 1) && (col >= col_plus)) {continue;}
+            tmp[row][col] = encrypt_msg[cout++];
+            if (length == cout) {break;}
+        }
+    }
+
+    for (cout = 0, row = 0; row < row_plus; row++) {
+        for (col = 0; col < key; col++) {
+            decrypt_msg[cout++] = tmp[row][col];
+        }
+    }
+    
+    free(tmp);
+
+    return decrypt_msg;
+}
