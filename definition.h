@@ -12,4 +12,7 @@ char *transpose_decrypt(char *encrypt_msg, int key);
 
 char *multiply_encrypt(char *original_msg, int key);
 char *multiply_decrypt(char *encrypt_msg, int key);
+
+char *affine_encrypt(char *original_msg, int key);
+char *affine_decrypt(char *encrypt_msg, int key);
 #endif /* __DEFINITION_H__ */

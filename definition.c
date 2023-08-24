@@ -182,3 +182,58 @@ char *multiply_decrypt(char *encrypt_msg, int key)
 
     return decrypt_msg;
 }
+
+#define CAESAR_SUPPLY   5
+char *affine_encrypt(char *original_msg, int key)
+{
+    int cout;
+    int length = 0;
+
+    length = strlen(original_msg);
+    char *encrypt_msg = calloc(1, length + 1);
+    if (encrypt_msg == NULL) {
+        return "Failed to alloc mem for encrypt_msg";
+    }
+
+    for (cout = 0; cout < length; cout++) {
+        if (original_msg[cout] == ' ') {
+            encrypt_msg[cout] = original_msg[cout];
+            continue;
+        }
+
+        encrypt_msg[cout] = (((key * original_msg[cout] + CAESAR_SUPPLY) % 26) + 65);
+    }
+
+    return encrypt_msg;
+}
+
+char *affine_decrypt(char *encrypt_msg, int key)
+{
+    int cout;
+    int inv = 0;
+    int length = 0;
+
+    length = strlen(encrypt_msg);
+    char *decrypt_msg = calloc(1, length + 1);
+    if (decrypt_msg == NULL) {
+        return "Failed to alloc mem for decrypt_msg";
+    }
+
+    for (cout = 0; cout < 26; cout++) {
+        if (1 == (key * cout) % 26) {
+            inv = cout;
+            printf("inv:%d\n", inv);
+        }
+    }
+
+    for (cout = 0; cout < length; cout++) {
+        if (encrypt_msg[cout] == ' ') {
+            decrypt_msg[cout] = encrypt_msg[cout];
+            continue;
+        }
+
+        decrypt_msg[cout] = (((inv * (encrypt_msg[cout] - CAESAR_SUPPLY)) % 26) + 65);
+    }
+
+    return decrypt_msg;
+}

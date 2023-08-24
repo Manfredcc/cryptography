@@ -15,6 +15,7 @@
     2023/08/13      Manfred         Add caesar method
     2023/08/16      Manfred         Add transpose method
     2023/08/24      Manfred         Add multiply method
+    2023/08/24      Manfred         Add affine method
 
 =================================================================*/
 

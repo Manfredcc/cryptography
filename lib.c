@@ -26,6 +26,11 @@ static OPS ops_lib[ID_MAX] = {
         .ego_encrypt = multiply_encrypt,
         .ego_decrypt = multiply_decrypt,
     },
+
+    { /* affine */
+        .ego_encrypt = affine_encrypt,
+        .ego_decrypt = affine_decrypt,
+    },
 };
 
 static char *names[ID_MAX] = {
@@ -162,6 +167,7 @@ void menu(void)
         operation.key = key;
         break;
     case MULTIPLY:
+    case AFFINE:
         printf("Please input the key: \n");
         scanf("%d", &key);
         operation.key = key;
