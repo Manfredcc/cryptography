@@ -18,6 +18,7 @@
     2023/08/24      Manfred         Add affine method
     2023/08/24      Manfred         Add replace method
     2023/08/25      Manfred         Add vigenere method
+    2023/08/25      Manfred         Add one_off method
 
 =================================================================*/
 

@@ -41,6 +41,11 @@ static OPS ops_lib[ID_MAX] = {
         .ego_encrypt = vigenere_encrypt,
         .ego_decrypt = vigenere_decrypt,
     },
+
+    { /* one_off, it's the same as vigenere, but the key is discarded after use */
+        .ego_encrypt = vigenere_encrypt,
+        .ego_decrypt = vigenere_decrypt,
+    },
 };
 
 static char *names[ID_MAX] = {
@@ -184,6 +189,7 @@ void menu(void)
         break;
     case REPLACE:
     case VIGENERE:
+    case ONE_OFF:
         printf("Please input the key/seed: \n");
         scanf("%d", &key);
         operation.key = key;
