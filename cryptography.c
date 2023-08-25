@@ -19,6 +19,7 @@
     2023/08/24      Manfred         Add replace method
     2023/08/25      Manfred         Add vigenere method
     2023/08/25      Manfred         Add one_off method
+    2023/08/25      Manfred         Add rsa method
 
 =================================================================*/
 

@@ -346,3 +346,98 @@ char *vigenere_decrypt(char *encrypt_msg, int key)
 
     return decrypt_msg;
 }
+
+int prime_check(int n)
+{
+    int cout;
+    
+    for (cout = 2; cout < n; cout++) {
+        if (0 == n % cout)
+            break;
+    }
+
+    return cout < n ? 0 : 1;
+}
+
+#define P 3
+#define Q 11
+int N;
+int pub_key[100];
+int pri_key[100];
+int size;
+int compute_rsa(void)
+{
+    int cout, i = 0;
+    N = P * Q;
+    int T = (P - 1) * (Q - 1);
+
+    for (cout = 1; cout < T; cout++) { /* select public key */
+        if (!prime_check(cout) || 0 == (T % cout))
+            continue;
+
+        pub_key[i++] = cout;
+    }
+
+    size = i;
+
+    for (cout = 0, i = 0; i < size; i++) {
+        do {
+            if ((cout * T + 1) % pub_key[i] == 0) {
+                pri_key[i] = (cout * T + 1) / pub_key[i];
+                break;
+            }
+            cout++;
+        } while (1 && cout < 50);
+    }
+}
+
+char *rsa_encrypt(char *original_msg, int key)
+{
+    int cout, i, tmp;
+    int length = strlen(original_msg);
+    char *encrypt_msg = (char *)calloc(1, length + 1);
+    if (!encrypt_msg)
+        return "Failed to alloc mem for encrypt_msg";
+    
+    compute_rsa();
+    key %= size; /* select specific key */
+
+    for (cout = 0; cout < length; cout++) {
+        if (original_msg[cout] == ' ') {
+            encrypt_msg[cout] = ' ';
+            continue;
+        }
+        tmp = original_msg[cout] - 97;
+        for (i = 0; i < pub_key[key] - 1; i++) {
+            tmp *= (original_msg[cout] - 97);
+        }
+        encrypt_msg[cout] = tmp % N + 97;
+    }
+
+    return encrypt_msg;
+}
+
+char *rsa_decrypt(char *encrypt_msg, int key)
+{
+    int cout, tmp, i;
+    int length = strlen(encrypt_msg);
+    char *decrypt_msg = (char *)calloc(1, length + 1);
+    if (!decrypt_msg)
+        return "Failed to alloc mem for decrypt_msg";
+    
+    key %= size;
+
+    for (cout = 0; cout < length; cout++) {
+        if (encrypt_msg[cout] == ' ') {
+            decrypt_msg[cout] = ' ';
+            continue;
+        }
+        tmp = encrypt_msg[cout] - 97;
+        for (i = 0; i < pri_key[key] - 1; i++) {
+            tmp *= (encrypt_msg[cout] - 97);
+        }
+        decrypt_msg[cout] = tmp % N + 97;
+    }
+
+    return decrypt_msg;
+}

@@ -21,4 +21,7 @@ char *replace_decrypt(char *encrypt_msg, int key);
 
 char *vigenere_encrypt(char *original_msg, int key);
 char *vigenere_decrypt(char *encrypt_msg, int key);
+
+char *rsa_encrypt(char *original_msg, int key);
+char *rsa_decrypt(char *encrypt_msg, int key);
 #endif /* __DEFINITION_H__ */

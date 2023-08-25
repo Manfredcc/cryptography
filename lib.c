@@ -46,6 +46,11 @@ static OPS ops_lib[ID_MAX] = {
         .ego_encrypt = vigenere_encrypt,
         .ego_decrypt = vigenere_decrypt,
     },
+
+    { /* rsa */
+        .ego_encrypt = rsa_encrypt,
+        .ego_decrypt = rsa_decrypt,
+    },
 };
 
 static char *names[ID_MAX] = {
@@ -191,6 +196,11 @@ void menu(void)
     case VIGENERE:
     case ONE_OFF:
         printf("Please input the key/seed: \n");
+        scanf("%d", &key);
+        operation.key = key;
+        break;
+    case RSA:
+        printf("Please input chose the key index: \n");
         scanf("%d", &key);
         operation.key = key;
         break;
