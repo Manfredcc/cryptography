@@ -253,7 +253,6 @@ void generate_key(int seed)
     }
 
     srand(seed);
-    /* genrate encrypt key */
     for (cout = 0; cout < 26; cout++) {
         rerun:
         rand_num = rand() % 26;
@@ -303,6 +302,46 @@ char *replace_decrypt(char *encrypt_msg, int key)
             continue;
         }
         decrypt_msg[cout] = decrypt_seq[encrypt_msg[cout] - 97] + 97;
+    }
+
+    return decrypt_msg;
+}
+
+char *vigenere_encrypt(char *original_msg, int key)
+{
+    int cout;
+    int length = strlen(original_msg);
+    char *encrypt_msg = (char *)calloc(1, length + 1);
+    if (!encrypt_msg)
+        return "Failed to alloc mem for encrypt_msg";
+
+    generate_key(key);
+
+    for (cout = 0; cout < length; cout++) {
+        if (original_msg[cout] == ' ') {
+            encrypt_msg[cout] = ' ';
+            continue;
+        }
+        encrypt_msg[cout] = original_msg[cout] - encrypt_seq[cout % 26];
+    }
+
+    return encrypt_msg;
+}
+
+char *vigenere_decrypt(char *encrypt_msg, int key)
+{
+    int cout;
+    int length = strlen(encrypt_msg);
+    char *decrypt_msg = (char *)calloc(1, length + 1);
+    if (!decrypt_msg)
+        return "Failed to alloc mem for decrypt_msg";
+    
+    for (cout = 0; cout < length; cout++) {
+        if (encrypt_msg[cout] == ' ') {
+            decrypt_msg[cout] = ' ';
+            continue;
+        }
+        decrypt_msg[cout] = encrypt_msg[cout] + encrypt_seq[cout % 26];
     }
 
     return decrypt_msg;
