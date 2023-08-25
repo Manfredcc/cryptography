@@ -31,6 +31,11 @@ static OPS ops_lib[ID_MAX] = {
         .ego_encrypt = affine_encrypt,
         .ego_decrypt = affine_decrypt,
     },
+
+    { /* replace */
+        .ego_encrypt = replace_encrypt,
+        .ego_decrypt = replace_decrypt,
+    },
 };
 
 static char *names[ID_MAX] = {
@@ -171,6 +176,13 @@ void menu(void)
         printf("Please input the key: \n");
         scanf("%d", &key);
         operation.key = key;
+        break;
+    case REPLACE:
+        printf("Please input the key/seed: \n");
+        scanf("%d", &key);
+        operation.key = key;
+        break;
+    default:
         break;
     }
 }

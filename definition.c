@@ -1,4 +1,5 @@
 #include <malloc.h>
+#include <stdlib.h>
 #include "stdio.h"
 #include "string.h"
 #include "cryptography.h"
@@ -233,6 +234,75 @@ char *affine_decrypt(char *encrypt_msg, int key)
         }
 
         decrypt_msg[cout] = (((inv * (encrypt_msg[cout] - CAESAR_SUPPLY)) % 26) + 65);
+    }
+
+    return decrypt_msg;
+}
+
+static int encrypt_seq[26];
+static int decrypt_seq[26];
+void generate_key(int seed)
+{
+    int cout, i, val, tag;
+    
+    int rand_num;
+
+    for (cout = 0; cout< 26; cout++) {
+        encrypt_seq[cout] = -1;
+        decrypt_seq[cout] = -1;
+    }
+
+    srand(seed);
+    /* genrate encrypt key */
+    for (cout = 0; cout < 26; cout++) {
+        rerun:
+        rand_num = rand() % 26;
+        for (i = 0; i < 26; i++) { /* repeated check */
+            if (encrypt_seq[i] == rand_num) {
+                goto rerun;
+            }
+        }
+
+        encrypt_seq[cout] = rand_num; /* assignment */
+        decrypt_seq[rand_num] = cout;
+    }
+}
+
+char *replace_encrypt(char *original_msg, int key)
+{
+    int cout;
+    int length = strlen(original_msg);
+    char *encrypt_msg = (char *)calloc(1, length + 1);
+    if (!encrypt_msg)
+        return "Failed to alloc mem for encrypt_msg";
+
+    generate_key(key);
+
+    for (cout = 0; cout < length; cout++) {
+        if (original_msg[cout] == ' ') {
+            encrypt_msg[cout] = ' ';
+            continue;
+        }
+        encrypt_msg[cout] = encrypt_seq[original_msg[cout] - 97] + 97;
+    }
+
+    return encrypt_msg;
+}
+
+char *replace_decrypt(char *encrypt_msg, int key)
+{
+    int cout;
+    int length = strlen(encrypt_msg);
+    char *decrypt_msg = (char *)calloc(1, length + 1);
+    if (!decrypt_msg)
+        return "Failed to alloc mem for decrypt_msg";
+    
+    for (cout = 0; cout < length; cout++) {
+        if (encrypt_msg[cout] == ' ') {
+            decrypt_msg[cout] = ' ';
+            continue;
+        }
+        decrypt_msg[cout] = decrypt_seq[encrypt_msg[cout] - 97] + 97;
     }
 
     return decrypt_msg;

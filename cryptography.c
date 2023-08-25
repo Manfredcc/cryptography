@@ -16,6 +16,7 @@
     2023/08/16      Manfred         Add transpose method
     2023/08/24      Manfred         Add multiply method
     2023/08/24      Manfred         Add affine method
+    2023/08/24      Manfred         Add replace method
 
 =================================================================*/
 
